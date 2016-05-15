@@ -2,15 +2,19 @@ import os
 import sys
 import site
 
-sys.path.insert(0, '/srv/www/lotto/lotto-jackpot/jackpot')
+VENV_PATH = "/srv/www/lotto"
+REPO_PATH = "{0}/provincial-state-lottery".format(VENV_PATH)
+APP_PATH = "{0}/psl".format(REPO_PATH)
 
-site.addsitedir('/srv/www/lotto/lib/python2.7/site-packages')
+sys.path.insert(0, VENV_PATH)
 
-sys.path.append('/srv/www/lotto')
-sys.path.append('/srv/www/lotto/lotto-jackpot')
-sys.path.append('/srv/www/lotto/lotto-jackpot/jackpot')
+site.addsitedir('{0}/lib/python2.7/site-packages'.format(VENV_PATH))
 
-activate_this = '/srv/www/lotto/bin/activate_this.py'
+sys.path.append(VENV_PATH)
+sys.path.append(REPO_PATH)
+sys.path.append(APP_PATH)
+
+activate_this = '{0}/bin/activate_this.py'.format(VENV_PATH)
 execfile(activate_this, dict(__file__=activate_this))
 
 from psl import app as application
