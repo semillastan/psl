@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block page_title %}Reports{% endblock %}
+
+{% block page_css %}{% endblock %}
+{% block body %}reports{% endblock %}
+
+{% block content %}
+<section class="content-header">
+  <h2>Reports</h2> 
+</section>
+<section class="content">
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="info-box">
+        <!-- Apply any bg-* class to to the icon to color it -->
+        <span class="info-box-icon bg-green"><i class="fa fa-money"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Total Bets</span>
+          <span class="info-box-number">{{ total_bets }}</span>
+        </div><!-- /.info-box-content -->
+      </div><!-- /.info-box -->
+    </div>
+
+    <div class="col-md-4">
+      <div class="info-box">
+        <!-- Apply any bg-* class to to the icon to color it -->
+        <span class="info-box-icon bg-blue"><i class="fa fa-arrows-h"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Highest vs Lowest Bets</span>
+          <span class="info-box-number">{{ highest_bet }} - {{ lowest_bet }}</span>
+        </div><!-- /.info-box-content -->
+      </div><!-- /.info-box -->
+    </div>
+
+    <div class="col-md-4">
+      <div class="info-box">
+        <!-- Apply any bg-* class to to the icon to color it -->
+        <span class="info-box-icon bg-red"><i class="fa fa-book"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Combination with Bets</span>
+          <span class="info-box-number">{{ no_of_bets }}</span>
+        </div><!-- /.info-box-content -->
+      </div><!-- /.info-box -->
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="box box-info">
+        <div class="box-header with-border">
+          <h3 class="box-title">Top 10 Codes (Today)</h3>
+
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <canvas id="betsLineChartTop" width="450" height="300"></canvas>
+        </div>
+        <!-- /.box-body -->
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="box box-info">
+        <div class="box-header with-border">
+          <h3 class="box-title">Lowest 10 Codes (Today)</h3>
+
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <canvas id="betsLineChartLow" width="450" height="300"></canvas>
+        </div>
+        <!-- /.box-body -->
+      </div>
+    </div>
+  </div>
+
+</section>
+{% endblock %}
+
+
+{% block js_footer %}
+<script type="text/javascript">
+  function pad (str, max) {
+    str = str.toString();
+    return str.length < max ? pad("0" + str, max) : str;
+  }
+
+  $(document).ready(function(){
+
+    var apiData = new Jackpot();
+    $.when(apiData.getData('top-10')).done(function(){
+      var ctx = document.getElementById("betsLineChartTop").getContext("2d");
+      var data = {
+        labels: apiData.labels,
+        datasets: [
+          {
+            label: "Top 10 Codes",
+            fillColor: "rgba(220,220,220,0.2)",
+            strokeColor: "rgba(220,220,220,1)",
+            pointColor: "rgba(220,220,220,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: apiData.data
+          }
+        ]
+      };
+      var lineChartOptions = {};
+
+      var betsLineChart = new Chart(ctx).Line(data, lineChartOptions);
+    });
+
+    var apiData2 = new Jackpot();
+    $.when(apiData2.getData('low-10')).done(function(){
+      var ctx = document.getElementById("betsLineChartLow").getContext("2d");
+      var data = {
+        labels: apiData2.labels,
+        datasets: [
+          {
+            label: "Lowest 10 Codes",
+            fillColor: "rgba(220,220,220,0.2)",
+            strokeColor: "rgba(220,220,220,1)",
+            pointColor: "rgba(220,220,220,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: apiData2.data
+          }
+        ]
+      };
+      var lineChartOptions = {};
+
+      var betsLineChart = new Chart(ctx).Line(data, lineChartOptions);
+    });
+  });
+</script>
+{% endblock %}

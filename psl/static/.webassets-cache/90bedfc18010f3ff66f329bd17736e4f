@@ -1,0 +1,3 @@
+Vbody:before{white-space:pre;font-family:monospace;content:"Error:File to import not found or unreadable:jquery.dynatable.\u005cA Load path:/Users/stan/Projects/Python/lotto/lotto-jackpot/jackpot/static/scss\u005cA on line 2 of scss/application.scss\u005cA \u005cA 1:@import \u005c"bootstrap\u005c";\u005cA 2:@import \u005c"jquery.dynatable\u005c";\u005cA 3:\u005cA 4:.widget-user-desc{\u005cA 5:a,a:hover{\u005cA 6:color:#fff;\u005cA 7:}"}
+p1
+.

@@ -1,0 +1,67 @@
+<aside class="main-sidebar">
+  {% if current_user.is_authenticated %}  
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+      <div class="user-panel">
+        <div class="pull-left image">
+          <img src="{% if current_user.image_url %}{{ current_user.image_url }}{% else %}{{ url_for('static', filename='images/logo.png') }}{% endif %}" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <p>{% if current_user.username %}{{ current_user.username }}{% else %}{{ current_user.email }}{% endif %}</p>
+          <a href="#">{{ current_user.last_login_at }}</a>
+        </div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="header">Navigation</li>
+        {% if current_user.is_admin %}
+          <li {% if 'bets' in request.url_rule.rule and not 'daily' in request.url_rule.rule and not 'settings' in request.url_rule.rule %}class="active"{% endif %}>
+            <a href="{{ url_for('bets.index') }}">
+              <i class="fa fa-book"></i> <span>Bets</span>
+            </a>
+          </li>
+          <li {% if 'bets' in request.url_rule.rule and 'daily' in request.url_rule.rule %}class="active"{% endif %}>
+            <a href="{{ url_for('bets.daily-bets') }}">
+              <i class="fa fa-ticket"></i> <span>Place Bets</span>
+            </a>
+          </li>
+          <li {% if 'reports' in request.url_rule.rule %}class="active"{% endif %}>
+            <a href="{{ url_for('reports.index') }}">
+              <i class="fa fa-line-chart"></i> <span>Reports</span>
+            </a>
+          </li>
+          <li {% if 'settings' in request.url_rule.rule %}class="active"{% endif %}>
+            <a href="{{ url_for('bets.settings') }}">
+              <i class="fa fa-cog"></i> <span>Settings</span>
+            </a>
+          </li>
+        {% else %}
+          <li {% if 'bets' in request.url_rule.rule and 'manual' in request.url_rule.rule %}class="active"{% endif %}>
+            <a href="{{ url_for('bets.daily-bets') }}">
+              <i class="fa fa-ticket"></i> <span>Place Bets</span>
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </section>
+  {% else %}
+    <section class="sidebar">
+      <ul class="sidebar-menu">
+        <li class="treeview">
+          <a href="{{ url_for('pages.home') }}">
+            <i class="fa fa-sign-in"></i>
+            <span>Login</span>
+          </a>
+        </li>
+        <li class="treeview">
+          <a href="{{ url_for('accounts.forgot_password') }}">
+            <i class="fa fa-lock"></i>
+            <span>Forgot Password</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+  {% endif %}
+  <!-- /.sidebar -->
+</aside>
+

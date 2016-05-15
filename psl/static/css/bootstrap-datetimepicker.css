@@ -1,0 +1,62 @@
+/*
+Error: Undefined variable: "$btn-primary-bg".
+        on line 7 of scss/bootstrap-datetimepicker.scss
+
+2:  * Datetimepicker for Bootstrap 3
+3:  * ! version : 4.7.14
+4:  * https://github.com/Eonasdan/bootstrap-datetimepicker/
+5:  *\/
+6: $bs-datetimepicker-timepicker-font-size: 1.2em !default;
+7: $bs-datetimepicker-active-bg: $btn-primary-bg !default;
+8: $bs-datetimepicker-active-color: $btn-primary-color !default;
+9: $bs-datetimepicker-border-radius: $border-radius-base !default;
+10: $bs-datetimepicker-btn-hover-bg: $gray-lighter !default;
+11: $bs-datetimepicker-disabled-color: $gray-light !default;
+12: $bs-datetimepicker-alternate-color: $gray-light !default;
+
+Backtrace:
+scss/bootstrap-datetimepicker.scss:7
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/script/tree/variable.rb:49:in `_perform'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/script/tree/node.rb:50:in `perform'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:469:in `visit_variable'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/stack.rb:79:in `block in with_base'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/stack.rb:115:in `with_frame'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/stack.rb:79:in `with_base'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:158:in `visit'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/tree/visitors/base.rb:52:in `map'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:167:in `block in visit_children'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:166:in `visit_children'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:186:in `visit_root'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:157:in `visit'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:8:in `visit'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/tree/root_node.rb:36:in `css_tree'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/tree/root_node.rb:29:in `render_with_sourcemap'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/engine.rb:378:in `_render_with_sourcemap'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/engine.rb:295:in `render_with_sourcemap'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/plugin/compiler.rb:490:in `update_stylesheet'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/plugin/compiler.rb:209:in `each'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/plugin/compiler.rb:293:in `watch'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/plugin.rb:109:in `method_missing'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/exec/sass_scss.rb:383:in `watch_or_update'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/exec/sass_scss.rb:51:in `process_result'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/exec/base.rb:52:in `parse'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/lib/sass/exec/base.rb:19:in `parse!'
+/Users/stan/.rvm/gems/ruby-2.1.0/gems/sass-3.4.21/bin/sass:13:in `<top (required)>'
+/Users/stan/.rvm/gems/ruby-2.1.0/bin/sass:23:in `load'
+/Users/stan/.rvm/gems/ruby-2.1.0/bin/sass:23:in `<main>'
+/Users/stan/.rvm/gems/ruby-2.1.0/bin/ruby_executable_hooks:15:in `eval'
+/Users/stan/.rvm/gems/ruby-2.1.0/bin/ruby_executable_hooks:15:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Undefined variable: \"$btn-primary-bg\".\A         on line 7 of scss/bootstrap-datetimepicker.scss\A \A 2:  * Datetimepicker for Bootstrap 3\A 3:  * ! version : 4.7.14\A 4:  * https://github.com/Eonasdan/bootstrap-datetimepicker/\A 5:  */\A 6: $bs-datetimepicker-timepicker-font-size: 1.2em !default;\A 7: $bs-datetimepicker-active-bg: $btn-primary-bg !default;\A 8: $bs-datetimepicker-active-color: $btn-primary-color !default;\A 9: $bs-datetimepicker-border-radius: $border-radius-base !default;\A 10: $bs-datetimepicker-btn-hover-bg: $gray-lighter !default;\A 11: $bs-datetimepicker-disabled-color: $gray-light !default;\A 12: $bs-datetimepicker-alternate-color: $gray-light !default;"; }

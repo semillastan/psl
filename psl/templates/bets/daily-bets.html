@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block page_title %}Bets{% endblock %}
+
+{% block page_css %}{% endblock %}
+{% block body %}bets{% endblock %}
+
+{% block content %}
+<section class="content-header">
+  <h2>Daily Bets</h2> 
+</section>
+<section class="content">
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-info">
+        <div class="box-header with-border">
+          <h3 class="box-title">Scheduled Bets</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <table class="table table-striped">
+            <colgroup>
+              <col width="30%">
+              <col width="30%">
+              <col width="40%">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Start Time</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for entries in jackpot_entries %}
+                <tr>
+                  <td>{{ entries.start_dt.strftime("%b %d, %Y") }}</td>
+                  <td>{{ entries.start_dt.strftime("%I:%M %p") }}</td>
+                  <td>
+                    <a class="btn btn-primary btn-md" href="{{ url_for('bets.manual-place-bets', bet_id=entries.bet_id) }}"><i class="fa fa-ticket"></i> Place Bets</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+    </div>
+  </div>
+
+</section>
+{% endblock %}
+
+
+{% block js_footer %}
+<script type="text/javascript">
+  $(document).ready(function(){
+
+  });
+</script>
+{% endblock %}

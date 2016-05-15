@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block page_title %}Home{% endblock %}
+
+{% block page_css %}{% endblock %}
+{% block body %}home{% endblock %}
+
+{% block content %}
+{% if not current_user.is_authenticated %}
+<section class="content-header col-md-offset-3">Welcome to Provincial State Lottery!</section>
+<section class="content">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      {% include "widgets/login-box.html" %}
+    </div>
+  </div>
+</section>
+{% else %}
+<section class="content-header">Welcome to Provincial State Lottery!</section>
+{% endif %}
+{% endblock %}

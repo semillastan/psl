@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block page_title %}Bets{% endblock %}
+
+{% block page_css %}{% endblock %}
+{% block body %}bets{% endblock %}
+
+{% block content %}
+<section class="content-header">
+  <h2>Daily Bets</h2>
+</section>
+<section class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-info">
+        <div class="box-header with-border">
+          <h3 class="box-title"></h3>
+
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div class="table-responsive">
+            <table class="table no-margin" id="dynatable">
+              <colgroup>
+                <col width="50%">
+                <col width="50%">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Bet</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for entry in jackpot_entries %}
+                <tr>
+                  <td>{{ entry.code }}</td>
+                  <td>{{ entry.bet }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <!-- /.table-responsive -->
+        </div>
+        <!-- /.box-body -->
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+
+{% block js_footer %}
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#dynatable").dynatable();
+
+    $("#dynatable-query-search-dynatable").addClass("form-control");
+  });
+</script>
+{% endblock %}

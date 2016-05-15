@@ -1,0 +1,65 @@
+<header class="main-header">
+  <!-- Logo -->
+  <a href="/" class="logo">
+    <!-- mini logo for sidebar mini 50x50 pixels -->
+    <span class="logo-mini"><b>PSL</b></span>
+    <!-- logo for regular state and mobile devices -->
+    <span class="logo-lg"><b>PSL</b></span>
+  </a>
+  
+  <nav class="navbar navbar-static-top" role="navigation">
+
+    {% if current_user.is_authenticated %}
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+    {% endif %}
+
+    {% if current_user.is_authenticated %}
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+
+          {% if current_user.is_admin %}
+            <li {% if 'bets' in request.url_rule.rule and 'daily' in request.url_rule.rule %}class="active"{% endif %}>
+              <a href="{{ url_for('bets.daily-bets') }}">
+                <i class="fa fa-ticket"></i>&nbsp;&nbsp;Place Bets
+              </a>
+            </li>
+            <li {% if 'reports' in request.url_rule.rule %}class="active"{% endif %}>
+              <a href="{{ url_for('reports.index') }}">
+                <i class="fa fa-line-chart"></i>&nbsp;&nbsp;Reports
+              </a>
+            </li>
+            <li {% if 'settings' in request.url_rule.rule %}class="active"{% endif %}>
+              <a href="{{ url_for('bets.settings') }}">
+                <i class="fa fa-cog"></i> <span class="hidden-xs">&nbsp;&nbsp;Settings</span>
+              </a>
+            </li>
+          {% else %}
+            <li {% if 'bets' in request.url_rule.rule and 'manual' in request.url_rule.rule %}class="active"{% endif %}>
+              <a href="{{ url_for('bets.daily-bets') }}">
+                <i class="fa fa-ticket"></i>&nbsp;&nbsp;Place Bets
+              </a>
+            </li>
+          {% endif %}
+
+          <li class="">
+            <a href="{{ url_for('accounts.logout') }}">
+              <i class="fa fa-sign-out"></i> <span class="hidden-xs">&nbsp;&nbsp;Logout</span>
+            </a>
+          </li>
+
+        </ul>
+      </div>
+    {% else %}
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="{{ url_for('pages.home') }}"><i class="fa fa-sign-in"></i> Login</a>
+          </li>
+        </ul>
+      </div>
+    {% endif %}
+  </nav>
+</header>

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% from "_formhelpers.html" import render_horizontal_field %}
+
+{% block page_title %}Bet Settings{% endblock %}
+
+{% block page_css %}{% endblock %}
+{% block body %}bet-settings{% endblock %}
+
+{% block content %}
+<section class="content-header">
+  <h2>Bet Settings</h2> 
+</section>
+<section class="content">
+
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <form class="form-horizontal" method="post" action="{{ url_for('bets.settings') }}" id="betSettingsForm">
+        {{ form.csrf_token }}
+
+        {{ render_horizontal_field(form.betting_time, title="Bet Time Value", class='form-control', id='inputBetTime', placeholder='60') }}
+        {{ render_horizontal_field(form.betting_time_unit, title="Bet Time Unit", class='form-control', id='inputBetTimeUnit', placeholder='minutes') }}
+        {{ render_horizontal_field(form.encoding_time, title="Encoding Time Value", class='form-control', id='inputEncodeTime', placeholder='60') }}
+        {{ render_horizontal_field(form.encoding_time_unit, title="Encoding Time Unit", class='form-control', id='inputEncodeTimeUnit', placeholder='minutes') }}
+
+        <div class="form-group">
+          <div class="col-sm-offset-4 col-sm-8">
+            <button type="submit" class="btn btn-primary">Save Settings</button>
+            <button type="button" class="btn btn-default">Cancel</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</section>
+{% endblock %}
+
+
+{% block js_footer %}
+<script type="text/javascript">
+  $(document).ready(function(){
+    
+  });
+</script>
+{% endblock %}

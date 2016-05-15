@@ -1,0 +1,374 @@
+{% extends "base.html" %}
+
+{% block page_title %}Place Bets{% endblock %}
+
+{% block page_css %}{% endblock %}
+{% block body %}place-bets{% endblock %}
+
+{% block content %}
+<section class="content-header">
+  <h2>Place Daily Bets - {{ jackpot_entries.0.created_at.strftime('%B %d, %Y') }}</h2> 
+</section>
+<section class="content">
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="info-box">
+        <!-- Apply any bg-* class to to the icon to color it -->
+        <span class="info-box-icon bg-blue"><i class="fa fa-clock-o"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Time Remaining</span>
+          <span class="info-box-number" id="time-remaining">00:00</span>
+        </div><!-- /.info-box-content -->
+      </div><!-- /.info-box -->
+    </div>
+
+    <div class="col-md-4">
+      <div class="info-box">
+        <!-- Apply any bg-* class to to the icon to color it -->
+        <span class="info-box-icon bg-green"><i class="fa fa-money"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Total Bets</span>
+          <span class="info-box-number">{{ jackpot_entries.0.total_bets() }}</span>
+        </div><!-- /.info-box-content -->
+      </div><!-- /.info-box -->
+    </div>
+
+    <div class="col-md-4">
+      <div class="info-box">
+        <!-- Apply any bg-* class to to the icon to color it -->
+        <span class="info-box-icon bg-red"><i class="fa fa-book"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Combination with Bets</span>
+          <span class="info-box-number">{{ jackpot_entries.0.combinations_with_bets() }}</span>
+        </div><!-- /.info-box-content -->
+      </div><!-- /.info-box -->
+    </div>
+  </div>
+
+  <form method="post" action="{{ url_for('bets.place-bets') }}">
+    <div class="row submit-row">
+      <div class="col-md-12">
+        <button type="submit" class="btn btn-lg btn-block btn-success"><i class="fa fa-bank"></i> SUBMIT BETS</button>
+      </div>
+    </div>
+    <div class="row" id="bets-tables">
+      <div class="col-md-12">
+        <div class="box box-info">
+          <div class="box-header with-border">
+            <h3 class="box-title">0000 - 4999</h3>
+
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            </div>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div class="table-responsive col-md-2 col-md-offset-1">
+              <table class="table table-condensed table-striped no-margin dynatable" id="dynatable-1">
+                <colgroup>
+                  <col width="50%">
+                  <col width="50%">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Bet</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for entry in jackpot_entries.0.entries[:1000] %}
+                  <tr>
+                    <td>{{ entry.code }}</td>
+                    <td>
+                      <input type="number" min="0" class="form-control bets-input" name="bets_{{entry.code}}" value="">
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- /.table-responsive -->
+
+            <div class="table-responsive col-md-2">
+              <table class="table table-condensed table-striped no-margin dynatable" id="dynatable-2">
+                <colgroup>
+                  <col width="50%">
+                  <col width="50%">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Bet</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for entry in jackpot_entries.0.entries[1000:2000] %}
+                  <tr>
+                    <td>{{ entry.code }}</td>
+                    <td>
+                      <input type="number" min="0" class="form-control bets-input" name="bets_{{entry.code}}" value="">
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- /.table-responsive -->
+
+            <div class="table-responsive col-md-2">
+              <table class="table table-condensed table-striped no-margin dynatable" id="dynatable-3">
+                <colgroup>
+                  <col width="50%">
+                  <col width="50%">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Bet</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for entry in jackpot_entries.0.entries[2000:3000] %}
+                  <tr>
+                    <td>{{ entry.code }}</td>
+                    <td>
+                      <input type="number" min="0" class="form-control bets-input" name="bets_{{entry.code}}" value="">
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- /.table-responsive -->
+
+            <div class="table-responsive col-md-2">
+              <table class="table table-condensed table-striped no-margin dynatable" id="dynatable-4">
+                <colgroup>
+                  <col width="50%">
+                  <col width="50%">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Bet</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for entry in jackpot_entries.0.entries[3000:4000] %}
+                  <tr>
+                    <td>{{ entry.code }}</td>
+                    <td>
+                      <input type="number" min="0" class="form-control bets-input" name="bets_{{entry.code}}" value="">
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- /.table-responsive -->
+
+            <div class="table-responsive col-md-2">
+              <table class="table table-condensed table-striped no-margin dynatable" id="dynatable-5">
+                <colgroup>
+                  <col width="50%">
+                  <col width="50%">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Bet</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for entry in jackpot_entries.0.entries[4000:5000] %}
+                  <tr>
+                    <td>{{ entry.code }}</td>
+                    <td>
+                      <input type="number" min="0" class="form-control bets-input" name="bets_{{entry.code}}" value="">
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- /.table-responsive -->
+          </div>
+          <!-- /.box-body -->
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <div class="box box-info">
+          <div class="box-header with-border">
+            <h3 class="box-title">5000 - 9999</h3>
+
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            </div>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div class="table-responsive col-md-2 col-md-offset-1">
+              <table class="table table-condensed table-striped no-margin dynatable" id="dynatable-6">
+                <colgroup>
+                  <col width="50%">
+                  <col width="50%">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Bet</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for entry in jackpot_entries.0.entries[5000:6000] %}
+                  <tr>
+                    <td>{{ entry.code }}</td>
+                    <td>
+                      <input type="number" min="0" class="form-control bets-input" name="bets_{{entry.code}}" value="">
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- /.table-responsive -->
+
+            <div class="table-responsive col-md-2">
+              <table class="table table-condensed table-striped no-margin dynatable" id="dynatable-7">
+                <colgroup>
+                  <col width="50%">
+                  <col width="50%">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Bet</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for entry in jackpot_entries.0.entries[6000:7000] %}
+                  <tr>
+                    <td>{{ entry.code }}</td>
+                    <td>
+                      <input type="number" min="0" class="form-control bets-input" name="bets_{{entry.code}}" value="">
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- /.table-responsive -->
+
+            <div class="table-responsive col-md-2">
+              <table class="table table-condensed table-striped no-margin dynatable" id="dynatable-8">
+                <colgroup>
+                  <col width="50%">
+                  <col width="50%">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Bet</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for entry in jackpot_entries.0.entries[7000:8000] %}
+                  <tr>
+                    <td>{{ entry.code }}</td>
+                    <td>
+                      <input type="number" min="0" class="form-control bets-input" name="bets_{{entry.code}}" value="">
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- /.table-responsive -->
+
+            <div class="table-responsive col-md-2">
+              <table class="table table-condensed table-striped no-margin dynatable" id="dynatable-9">
+                <colgroup>
+                  <col width="50%">
+                  <col width="50%">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Bet</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for entry in jackpot_entries.0.entries[8000:9000] %}
+                  <tr>
+                    <td>{{ entry.code }}</td>
+                    <td>
+                      <input type="number" min="0" class="form-control bets-input" name="bets_{{entry.code}}" value="">
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- /.table-responsive -->
+
+            <div class="table-responsive col-md-2">
+              <table class="table table-condensed table-striped no-margin dynatable" id="dynatable-10">
+                <colgroup>
+                  <col width="50%">
+                  <col width="50%">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Bet</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for entry in jackpot_entries.0.entries[9000:10000] %}
+                  <tr>
+                    <td>{{ entry.code }}</td>
+                    <td>
+                      <input type="number" min="0" class="form-control bets-input" name="bets_{{entry.code}}" value="">
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- /.table-responsive -->
+          </div>
+          <!-- /.box-body -->
+        </div>
+      </div>
+
+    </div>
+  </form>
+</section>
+{% endblock %}
+
+
+{% block js_footer %}
+<script type="text/javascript">
+  $(document).ready(function(){
+    var now = moment();
+    var fifteen_mins = now.add(parseInt('{{ time_value.param_value }}'), '{{ time_type.param_value }}').format('YYYY/MM/DD HH:mm:ss');
+    
+    $('#time-remaining').countdown(fifteen_mins)
+      .on('update.countdown', function(event) {
+        var format = '%M:%S';
+        $(this).html(event.strftime(format));
+      })
+      .on('finish.countdown', function(event) {
+        lock_inputs();
+      });
+
+    var lock_inputs = function(){
+      $(".bets-input").addClass('disabled');
+      $(".bets-input").attr('disabled', 'disabled');
+    };
+
+  });
+</script>
+{% endblock %}

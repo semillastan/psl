@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block page_title %}Bets{% endblock %}
+
+{% block page_css %}{% endblock %}
+{% block body %}bets{% endblock %}
+
+{% block content %}
+<section class="content-header">
+  <h2>Daily Bets</h2>
+</section>
+<section class="content">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="box box-info">
+        <div class="box-header with-border">
+          <h3 class="box-title">Start Bet</h3>
+
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+          </div>
+        </div>
+        <div class="box-body">
+          
+        </div>
+        <!-- /.box-body -->
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="box box-info">
+        <div class="box-body">
+          <div id='calendar'></div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block js_footer %}
+<script type="text/javascript">
+  $(document).ready(function(){
+    var events = "{{ events }}".replace(/&#39;/g, "\"").replace(/u"/g, "\"");
+    var obj = JSON.parse(events);
+
+    $('#calendar').fullCalendar({
+        events: obj,
+        
+        dayClick: function(date, jsEvent, view) {
+          var url = "/bets/" + date.format("DDMMYYYY");
+          window.location = url;
+        }
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% from "_formhelpers.html" import render_field %}
+
+{% block page_title %}Bets{% endblock %}
+
+{% block page_css %}{% endblock %}
+{% block body %}bets{% endblock %}
+
+{% block content %}
+<section class="content-header">
+  <h2>Bets</h2>
+</section>
+<section class="content">
+  <div class="row">
+    <div class="col-md-5">
+      <div class="box box-info">
+        <form class="form-signin" role="form" action="{{ url_for('bets.create') }}" method="post" autocomplete="false">
+          <div class="box-header with-border">
+            <h3 class="box-title">Create Bet</h3>
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            </div>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+              <div class="row">
+                {{ bet_form.csrf_token }}
+                <div class="form-group col-md-4">
+                  <input type="hidden" name="start_datetime" id="startDatetime" />
+                  <label>Start Time</label>
+                  <select class="form-control time-dropdown" id="start_time">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-4">
+                  <label>&nbsp;</label>
+                  <select class="form-control time-dropdown" id="start_time_minute">
+                    <option value="00">00</option>
+                    <option value="15">15</option>
+                    <option value="30">30</option>
+                    <option value="45">45</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-4">
+                  <label>&nbsp;</label>
+                  <select class="form-control time-dropdown" id="start_time_unit">
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                  </select>
+                </div>
+              </div>
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <div class="row">
+              <div class="col-md-12">
+                <button class="btn btn-primary" type="submit" id="submitButton"><i class="fa fa-check"></i> CREATE</button>
+                <button class="btn btn-default" type="button" id="resetButton"><i class="fa fa-times"></i> RESET</button>
+              </div>
+            </div>
+          </div>
+          <!-- /.box-footer -->
+        </form>
+      </div>
+      <div class="box box-info">
+        <div class="box-header with-border">
+          <h3 class="box-title">Bets Schedule (Today)</h3>
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <table class="table table-striped">
+            <colgroup>
+              <col width="40%">
+              <col width="35%">
+              <col width="25%">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Bet ID</th>
+                <th>Schedule</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for bet in bets %}
+                <tr>
+                  <td>{{ bet.bet_id }}</td>
+                  <td>{{ bet.start_dt.strftime('%I:%M %p') }}</td>
+                  <td>
+                    <a class="btn btn-default btn-sm" href="{{ url_for('bets.manual-place-bets', bet_id=bet.bet_id) }}"><i class="fa fa-book"></i></a>
+                    <button class="btn btn-default btn-sm delete-bet" data-href="{{ url_for('bets.delete', bet_id=bet.bet_id) }}"><i class="fa fa-trash"></i></button>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+    </div>
+    
+    <div class="col-md-7">
+      <div class="box box-info">
+        <div class="box-body">
+          <div id='calendar'></div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block js_footer %}
+<script type="text/javascript">
+  var start_time = moment();
+
+  function printTime(){
+    console.log(start_time.format("YYYY-MM-DD HH:mm"));
+  }
+
+  function setTimeSelect(){
+    var testDate = [2016, 4, 16, 10, 35, 0, 0];
+    var start = moment();
+    var remainder = (15 - start.minute()) % 15;
+    if(remainder < 0){
+      remainder = 15 + remainder;
+    }
+    start_time = moment(start).add(remainder, "minutes");
+
+    $("#start_time").val(start_time.format("h"));
+    $("#start_time_minute").val(start_time.format("mm"));
+    $("#start_time_unit").val(start_time.format("A"));
+    
+    $("#startDatetime").val(start_time.format("YYYY-MM-DD HH:mm"));
+    printTime();
+  }
+
+  function checkTime(){
+  }
+
+  function setTime(){
+    var nHour = parseInt($("#start_time").val());
+    if($("#start_time_unit").val() == "PM" && nHour < 12){
+      nHour += 12;
+    }
+    start_time.hour(nHour);
+    start_time.minutes(parseInt($("#start_time_minute").val()));
+    $("#startDatetime").val(start_time.format("YYYY-MM-DD HH:mm"));
+    printTime();
+  }
+
+  $("#resetButton").click(function(){
+    setTimeSelect();
+  });
+
+  $(".time-dropdown").change(function(){
+    setTime();
+  });
+
+  $(document).on("click", ".delete-bet", function(e) {
+    var delete_href = $(this).data("href");
+    bootbox.confirm("Are you sure?", function(res) {
+      if(res == true){
+        window.location = delete_href;
+      }
+    });
+  });
+
+  $(document).ready(function(){
+    setTimeSelect();
+
+    var events = "{{ events }}".replace(/&#39;/g, "\"").replace(/u"/g, "\"");
+    var obj = JSON.parse(events);
+
+    $('#calendar').fullCalendar({
+        events: obj,
+        
+        dayClick: function(date, jsEvent, view) {
+          var url = "/bets/" + date.format("DDMMYYYY");
+          // window.location = url;
+        }
+    });
+  });
+</script>
+{% endblock %}

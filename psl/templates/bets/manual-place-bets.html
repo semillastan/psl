@@ -1,0 +1,260 @@
+{% extends "base.html" %}
+
+{% block page_title %}Place Bets{% endblock %}
+
+{% block page_css %}{% endblock %}
+{% block body %}place-bets{% endblock %}
+
+{% block content %}
+<section class="content-header">
+  {% if jackpot_entries %}
+    <h2>Place Daily Bets - {{ jackpot_entry.created_at.strftime('%B %d, %Y') }}</h2>
+  {% else %}
+    <h2>Place Daily Bets</h2>
+  {% endif %}
+</section>
+<section class="content">
+
+  <form method="post" action="{{ url_for('bets.manual-place-bets', bet_id=jackpot_entry.bet_id) }}" id="betForm">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="info-box">
+          <!-- Apply any bg-* class to to the icon to color it -->
+          <span class="info-box-icon bg-yellow"><i class="fa fa-clock-o"></i></span>
+          <div class="info-box-content">
+            <span class="info-box-text">Encoding Time Starts</span>
+            <span class="info-box-number" id="encoding-time-start">00:00</span>
+          </div><!-- /.info-box-content -->
+        </div><!-- /.info-box -->
+      </div>
+
+      <div class="col-md-4">
+        <div class="info-box">
+          <!-- Apply any bg-* class to to the icon to color it -->
+          <span class="info-box-icon bg-blue"><i class="fa fa-clock-o"></i></span>
+          <div class="info-box-content">
+            <span class="info-box-text">Time Remaining</span>
+            <span class="info-box-number" id="time-remaining">00:00</span>
+          </div><!-- /.info-box-content -->
+        </div><!-- /.info-box -->
+      </div>
+
+      <div class="col-md-4 submit-row">
+        <button type="submit" class="btn btn-lg btn-block btn-success submitButton"><i class="fa fa-bank"></i> SUBMIT BETS</button>
+      </div>
+    </div>
+
+    <div class="row" id="bets-tables">
+      <div class="col-md-12">
+        <div class="box box-info">
+          <div class="box-header with-border">
+            <h3 class="box-title">Enter codes manually</h3>
+
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            </div>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div class="table-responsive">
+              <table class="table table-condensed table-striped no-margin dynatable" id="dynatable-1">
+                <colgroup>
+                  <col width="50%">
+                  <col width="50%">
+                  <col width="50px">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Bet</th>
+                  </tr>
+                </thead>
+                <tbody id="betsTableBody">
+                  {% for i in range(20) %}
+                    <tr>
+                      <td>
+                        <input type="number" min="0" max="9999" pattern="[0-9]{4}" class="form-control code-input" name="code_{{ i }}" value="">
+                      </td>
+                      <td>
+                        <input type="number" min="0" class="form-control bets-input" name="bets_{{ i }}" value="">
+                      </td>
+                      <td><button type="button" class="btn btn-warning btn-sm delete-row"><i class="fa fa-times"></i></td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- /.table-responsive -->
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <button id="addEntry" type="button" class="btn btn-primary">Add Combination</button>
+            <button type="submit" class="btn btn-success pull-right submitButton"><i class="fa fa-bank"></i> SUBMIT BETS</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>
+{% endblock %}
+
+
+{% block js_footer %}
+<script type="text/javascript">
+  function pad (str, max) {
+    str = str.toString();
+    return str.length < max ? pad("0" + str, max) : str;
+  }
+
+  function addRow(code){
+    var html = "";
+    html += '<tr>';
+    html +=   '<td>';
+    html +=     '<input type="number" min="0" max="9999" pattern="[0-9]{4}" class="form-control code-input" name="code_' + code + '" value="">';
+    html +=   '</td>';
+    html +=   '<td>';
+    html +=     '<input type="number" min="0" class="form-control bets-input" name="bets_' + code + '" value="">';
+    html +=   '</td>';
+    html +=   '<td><button type="button" class="btn btn-warning btn-sm delete-row"><i class="fa fa-times"></i></td>';
+    html += '</tr>';
+    return html;
+  }
+
+  function deleteRow(elem){
+    $(elem).parent().parent().remove();
+    $.notify("Row removed.", 'warning');
+  }
+
+  function refreshScripts(){
+    $(".code-input").keydown(function (e) {
+      var code = $(this).val();
+      
+      // Allow: backspace, delete, tab, escape, enter and .
+      if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+           // Allow: Ctrl+A, Command+A
+          (e.keyCode == 65 && ( e.ctrlKey === true || e.metaKey === true ) ) || 
+           // Allow: home, end, left, right, down, up
+          (e.keyCode >= 35 && e.keyCode <= 40)) {
+               // let it happen, don't do anything
+               return;
+      }
+      if(code.length < 4){
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+          e.preventDefault();
+        }
+      }else{
+        e.preventDefault();
+      }
+        
+    }).change(function(){
+      var code = $(this).val();
+      var padded_code = pad(code, 4)
+      $(this).val(padded_code);
+      $(this).attr('name', 'code_' + padded_code);
+      $(this).parent().parent().find('.bets-input').attr('name', 'bets_' + padded_code);
+    });
+
+    $(".bets-input").keydown(function (e) {
+      var code = $(this).val();
+      
+      // Allow: backspace, delete, tab, escape, enter and .
+      if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+           // Allow: Ctrl+A, Command+A
+          (e.keyCode == 65 && ( e.ctrlKey === true || e.metaKey === true ) ) || 
+           // Allow: home, end, left, right, down, up
+          (e.keyCode >= 35 && e.keyCode <= 40)) {
+               // let it happen, don't do anything
+               return;
+      }
+
+      // Ensure that it is a number and stop the keypress
+      if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+        e.preventDefault();
+      }
+        
+    });
+  }
+
+  function computeTime(){
+    var end_time = moment("{{ jackpot_entry.end_dt }}", "YYYY-MM-DD HH:mm:ss");
+    var encoding_time = end_time.subtract(parseInt('{{ bet_settings.encoding_time }}'), '{{ bet_settings.encoding_time_unit }}');
+    return encoding_time;
+  }
+
+  var lock_inputs = function(){
+    $(".bets-input").addClass('disabled');
+    $(".bets-input").attr('disabled', 'disabled');
+    $(".code-input").addClass('disabled');
+    $(".code-input").attr('disabled', 'disabled');
+    $("#addEntry").addClass('disabled');
+    $("#addEntry").attr('disabled', 'disabled');
+    $(".delete-row").addClass('disabled');
+    $(".delete-row").attr('disabled', 'disabled');
+  };
+
+  var unlock_inputs = function(){
+    $(".bets-input").removeClass('disabled');
+    $(".bets-input").removeAttr('disabled');
+    $(".code-input").removeClass('disabled');
+    $(".code-input").removeAttr('disabled');
+  };
+
+  $(document).ready(function(){
+
+    var encode_time_start = computeTime();
+    var now = moment();
+    var fifteen_mins = now.add(parseInt('{{ bet_settings.encoding_time }}'), '{{ bet_settings.encoding_time_unit }}').format('YYYY/MM/DD HH:mm:ss');
+
+    lock_inputs();
+
+    $('#encoding-time-start').countdown(encode_time_start.format('YYYY/MM/DD HH:mm:ss'))
+      .on('update.countdown', function(event) {
+        var format = '%H:%M:%S';
+        var time_str = event.strftime(format);
+        $(this).html(time_str);
+      })
+      .on('finish.countdown', function(event) {
+        unlock_inputs();
+        $('#time-remaining').countdown(moment("{{ jackpot_entry.end_dt }}", "YYYY-MM-DD HH:mm:ss").format('YYYY/MM/DD HH:mm:ss'))
+          .on('update.countdown', function(event) {
+            var format = '%M:%S';
+            var time_str = event.strftime(format);
+            $(this).html(time_str);
+            if(time_str == '05:00'){
+              $.notify('5 minutes remaining', 'info');
+            }else if(time_str == '02:00'){
+              $.notify('2 minutes remaining', 'warning');
+            }else if(time_str == '01:00'){
+              $.notify('1 minute remaining', 'danger');
+            }else if(time_str == '00:20'){
+              $.notify('20 seconds remaining', 'danger');
+            }
+          })
+          .on('finish.countdown', function(event) {
+            lock_inputs();
+          });
+      });
+
+    refreshScripts();
+
+    $("#addEntry").click(function(){
+      $("#betsTableBody").append(addRow("a"));
+      $(".delete-row").click(function(){
+        deleteRow($(this));
+      });
+      refreshScripts();
+    });
+
+    $(".delete-row").click(function(){
+      deleteRow($(this));
+    });
+
+    $(".submitButton").click(function(){
+      unlock_inputs();
+      $("#betForm").submit();
+    });
+
+  });
+</script>
+{% endblock %}

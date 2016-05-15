@@ -1,0 +1,26 @@
+.submit-row {
+  margin-bottom: 20px; }
+
+#bets-tables .table-responsive {
+  padding: 0; }
+  #bets-tables .table-responsive tr td, #bets-tables .table-responsive tr th {
+    vertical-align: middle;
+    text-align: center; }
+
+.info-box {
+  min-height: 45px; }
+  .info-box .info-box-icon {
+    height: 45px;
+    width: 45px;
+    font-size: 25px;
+    line-height: 45px; }
+  .info-box .info-box-content {
+    padding: 4px 10px;
+    margin-left: 45px; }
+    .info-box .info-box-content .info-box-number {
+      line-height: 1; }
+
+.table td {
+  vertical-align: middle !important; }
+
+/*# sourceMappingURL=jackpot.css.map */

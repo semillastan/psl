@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block page_title %}Bets{% endblock %}
+
+{% block page_css %}{% endblock %}
+{% block body %}bets{% endblock %}
+
+{% block content %}
+<section class="content-header">
+  <h2>Daily Bets - {{ jackpot_entries.0.created_at.strftime('%B %d, %Y') }}</h2> 
+</section>
+<section class="content">
+
+  <div class="row">
+    <div class="col-md-4">
+      <a href="{{ url_for('bets.manual-place-bets') }}" class="btn btn-primary btn-lg btn-block"><i class="fa fa-ticket"></i> PLACE BETS</a><br>
+    </div>
+
+    <div class="col-md-4">
+      <div class="info-box">
+        <!-- Apply any bg-* class to to the icon to color it -->
+        <span class="info-box-icon bg-green"><i class="fa fa-money"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Total Bets</span>
+          <span class="info-box-number">{{ jackpot_entries.0.total_bets() }}</span>
+        </div><!-- /.info-box-content -->
+      </div><!-- /.info-box -->
+    </div>
+
+    <div class="col-md-4">
+      <div class="info-box">
+        <!-- Apply any bg-* class to to the icon to color it -->
+        <span class="info-box-icon bg-red"><i class="fa fa-book"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Combination with Bets</span>
+          <span class="info-box-number">{{ jackpot_entries.0.combinations_with_bets() }}</span>
+        </div><!-- /.info-box-content -->
+      </div><!-- /.info-box -->
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-info">
+        <div class="box-header with-border">
+          <h3 class="box-title">Top 10 Codes</h3>
+
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <canvas id="betsLineChart" width="1000" height="300"></canvas>
+        </div>
+        <!-- /.box-body -->
+        
+      </div>
+    </div>
+  </div>
+
+</section>
+{% endblock %}
+
+
+{% block js_footer %}
+<script type="text/javascript">
+  function pad (str, max) {
+    str = str.toString();
+    return str.length < max ? pad("0" + str, max) : str;
+  }
+
+  $(document).ready(function(){
+    var ctx = document.getElementById("betsLineChart").getContext("2d");
+    var apiData = new Jackpot();
+    $.when(apiData.getData('top-10')).done(function(){
+      var data = {
+        labels: apiData.labels,
+        datasets: [
+          {
+            label: "My First dataset",
+            fillColor: "rgba(220,220,220,0.2)",
+            strokeColor: "rgba(220,220,220,1)",
+            pointColor: "rgba(220,220,220,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: apiData.data
+          }
+        ]
+      };
+      var lineChartOptions = {};
+
+      var betsLineChart = new Chart(ctx).Line(data, lineChartOptions);
+    });
+  });
+</script>
+{% endblock %}
