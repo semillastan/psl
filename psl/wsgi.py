@@ -2,7 +2,7 @@ import os
 import sys
 import site
 
-VENV_PATH = "/srv/www/lotto"
+VENV_PATH = "/srv/www/psl"
 REPO_PATH = "{0}/provincial-state-lottery".format(VENV_PATH)
 APP_PATH = "{0}/psl".format(REPO_PATH)
 
