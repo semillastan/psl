@@ -65,8 +65,13 @@ class LowestTenCodesView(MethodView):
                     e = {'code': entry['code'], 'bet': entry['bet']}
                     entries.append(e)
 
+        if len(entries) == 1:
+            entries = []
+        else:
+            entries = sorted(entries, key=lambda k: k['bet'])[:10]
+        
         context = {
-            'entries': sorted(entries, key=lambda k: k['bet'])[:10]
+            'entries': entries
         }
         return context
 

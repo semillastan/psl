@@ -20,10 +20,16 @@ class ReportsView(MethodView):
         total_bets = 0
         no_of_bets = 0
 
+        no_bets = []
+        sorted_arr = []
+        codes = []
+
         if result['entries']:
             sorted_arr = sorted(result['entries'], key=lambda k: k['bet'], reverse=True)
             
             for item in result['entries']:
+                codes.append(item['code'])
+
                 if item['bet'] >= highest_bet:
                     highest_bet = item['bet']
 
@@ -38,12 +44,24 @@ class ReportsView(MethodView):
         if lowest_bet == 9999999:
             lowest_bet = 0
 
+        if lowest_bet == highest_bet:
+            lowest_bet = 0
+
+        for i in range(10000):
+            code = "%04d" % (i,)
+            if not code in codes:
+                no_bets.append(code)
+
+        len_no_bets = int(len(no_bets)) / 4
+
         context = {
             'result': result,
             'total_bets': total_bets,
             'highest_bet': highest_bet,
             'lowest_bet': lowest_bet,
-            'no_of_bets': no_of_bets
+            'no_of_bets': no_of_bets,
+            'no_bets': no_bets,
+            'len_no_bets': len_no_bets
         }
         return context
 
