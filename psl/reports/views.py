@@ -24,22 +24,23 @@ class ReportsView(MethodView):
         sorted_arr = []
         codes = []
 
-        if result['entries']:
-            sorted_arr = sorted(result['entries'], key=lambda k: k['bet'], reverse=True)
-            
-            for item in result['entries']:
-                codes.append(item['code'])
+        if result:
+            if result['entries']:
+                sorted_arr = sorted(result['entries'], key=lambda k: k['bet'], reverse=True)
+                
+                for item in result['entries']:
+                    codes.append(item['code'])
 
-                if item['bet'] >= highest_bet:
-                    highest_bet = item['bet']
+                    if item['bet'] >= highest_bet:
+                        highest_bet = item['bet']
 
-                if item['bet'] <= lowest_bet and item['bet'] != 0:
-                    lowest_bet = item['bet']
+                    if item['bet'] <= lowest_bet and item['bet'] != 0:
+                        lowest_bet = item['bet']
 
-                total_bets += item['bet']
+                    total_bets += item['bet']
 
-                if item['bet'] != 0:
-                    no_of_bets += 1
+                    if item['bet'] != 0:
+                        no_of_bets += 1
 
         if lowest_bet == 9999999:
             lowest_bet = 0
